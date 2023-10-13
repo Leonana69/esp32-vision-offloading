@@ -11,3 +11,4 @@ flash:
 		idf.py -p $$usbport flash; \
 	fi
 ```
+- Wait until flashing is done, disconnect IO0, and push the RESET button again. The new firmware won't run until you RESET the chip.
