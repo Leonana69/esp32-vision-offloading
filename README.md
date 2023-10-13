@@ -7,5 +7,6 @@ This project targets efficient image offloading from an ESP32 camera module to t
 - [ ] Build, flash, and run a "hello world" project.
 - [ ] Create the "vision-offloading" project which reads images from the camera and prints out the image information (size).
 - [ ] Test the "vision-offloading" for our custom-built ESP32 module.
+- [x] Make the above tasks done quickly.
 - [ ] Develop network application between ESP32 and edge server.
 - [ ] Improve the efficiency of the image streaming.
