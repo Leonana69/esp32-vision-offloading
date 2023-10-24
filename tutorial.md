@@ -50,8 +50,6 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
     <details>
     <summary>Example of successful build output</summary>
 
-    Your output should look something like this:
-
     ```
     idf.py build
     /Users/joshua/esp/esp-idf/tools/check_python_dependencies.py:12: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
@@ -134,9 +132,7 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
 1. Flash and monitor the project to the ESP32-CAM by running `make`
 
     <details>
-    <summary>Example of successful initial flash output</summary>\
-
-    Your output should look something like this:
+    <summary>Example of successful initial flash output</summary>
 
     ```
     (base) joshua@delta-2 esp32-vision-offloading % make flash
@@ -173,8 +169,6 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
 
     <details>
     <summary>Example of successful final flash output</summary>
-
-    Your output should look something like this:
 
     ```
     Connecting.............................
@@ -241,7 +235,7 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
 1. Reset the ESP32-CAM by pressing the `RST` button on the board which should cause the ESP32-CAM to start running the project
 
     <details>
-    <summary>Example of successful run</summary>
+    <summary>Example of successful run output</summary>
 
     ```
     ets Jul 29 2019 12:21:46
