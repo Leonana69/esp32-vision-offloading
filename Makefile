@@ -1,9 +1,9 @@
 MAIN = main/esp32-vo.c
 
-all: configure flash monitor
+all: flash monitor
 
-configure:
-	idf.py set-target esp32
+config:
+	idf.py menuconfig
 
 build: $(MAIN)
 	idf.py build
@@ -23,3 +23,6 @@ monitor:
 	else \
 		idf.py -p $$usbport monitor; \
 	fi
+
+clean:
+	idf.py clean

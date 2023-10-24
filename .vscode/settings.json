@@ -7,6 +7,6 @@
     "disassembly": "yaml",
     "gdb_cfg": "ssh_config",
     "log": "log",
-    "freertos.h": "c"
+    "*.h": "c",
   }
 }
