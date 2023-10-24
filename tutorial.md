@@ -151,7 +151,7 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
     esptool.py v4.7.dev2
     Serial port /dev/cu.usbserial-A50285BI
     ```
-    <details>
+    </details>
 
     If the output prints out the following and hangs:
 
@@ -214,7 +214,7 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
     --- esp-idf-monitor 1.3.2 on /dev/cu.usbserial-A50285BI 115200 ---
     --- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---
     ```
-    <details>
+    </details>
 
 ### Run
 
