@@ -10,3 +10,5 @@ This project targets efficient image offloading from an ESP32 camera module to t
 - [x] Make the above tasks done quickly.
 - [ ] Develop network application between ESP32 and edge server.
 - [ ] Improve the efficiency of the image streaming.
+
+For more information, please refer to the tutorial [here](tutorial.md).
