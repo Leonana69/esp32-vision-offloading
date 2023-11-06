@@ -41,7 +41,7 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
 
     Press `Q` to quit.
 
-    A prompt will ask you if you want to save the configuration to `.../esp32-vision-offloading/sdkconfig`. Press `Enter` to save.
+    A prompt will ask you if you want to save the configuration to `.../esp32-vision-offloading/sdkconfig`. Press `Y` to save.
 
 ### Build
 
@@ -381,6 +381,7 @@ Make sure:
 - You press the `RST` button on the ESP32-CAM to reset the board after seeing `Serial port /dev/cu.usbserial-A50285BI` in the output
 - ESP32-CAM is correctly wired to the UART to USB converter
 - Converter's VCC pin is connected to the converter's 5V pin
+- You try to connect the `GND` line to another `GND` pin on the ESP32-CAM
 
 ### cam_dma_config(300): frame buffer malloc failed
 
