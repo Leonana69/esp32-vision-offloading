@@ -38,6 +38,8 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
     - `Component config` &rarr; `ESP PSRAM` &rarr; Enable `Support for external, SPI-connected RAM`
     - `Component config` &rarr; `ESP PSRAM` &rarr; `Support for external, SPI-connected RAM` &rarr; `SPI RAM config` &rarr; `Set RAM clock speed` &rarr; Set `80MHz Clock Speed`
     - `Serial flasher config` &rarr; `Flash SPI speed` &rarr; Set `80 MHz`
+    - `WIFI` &rarr; Enter correct `SSID`
+    - `WIFI` &rarr; Enter correct `Password`
 
     Press `Q` to quit.
 
@@ -253,7 +255,7 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
     load:0x40080404,len:3876
     entry 0x4008064c
     I (31) boot: ESP-IDF v5.1-rc2-dirty 2nd stage bootloader
-    I (31) boot: compile time Oct 24 2023 16:52:50
+    I (31) boot: compile time Nov 10 2023 17:14:58
     I (31) boot: Multicore bootloader
     I (36) boot: chip revision: v3.1
     I (40) boot.esp32: SPI Speed      : 80MHz
@@ -266,78 +268,323 @@ Source: [vscode-esp-idf-extension](https://github.com/espressif/vscode-esp-idf-e
     I (77) boot:  1 phy_init         RF data          01 01 0000f000 00001000
     I (85) boot:  2 factory          factory app      00 00 00010000 00100000
     I (92) boot: End of partition table
-    I (96) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=12b98h ( 76696) map
-    I (128) esp_image: segment 1: paddr=00022bc0 vaddr=3ffb0000 size=0336ch ( 13164) load
-    I (133) esp_image: segment 2: paddr=00025f34 vaddr=40080000 size=0a0e4h ( 41188) load
-    I (148) esp_image: segment 3: paddr=00030020 vaddr=400d0020 size=25ec4h (155332) map
-    I (196) esp_image: segment 4: paddr=00055eec vaddr=4008a0e4 size=080bch ( 32956) load
-    I (217) boot: Loaded app from partition at offset 0x10000
-    I (217) boot: Disabling RNG early entropy source...
-    I (228) cpu_start: Multicore app
-    I (228) quad_psram: This chip is ESP32-D0WD
-    I (230) esp_psram: Found 8MB PSRAM device
-    I (231) esp_psram: Speed: 80MHz
-    I (234) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.
-    W (242) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped
-    I (251) cpu_start: Pro cpu up.
-    I (255) cpu_start: Starting app cpu, entry point is 0x40081464
-    0x40081464: call_start_cpu1 at /Users/joshua/esp/esp-idf/components/esp_system/port/cpu_start.c:154
+    I (96) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=2c470h (181360) map
+    I (160) esp_image: segment 1: paddr=0003c498 vaddr=3ffb0000 size=03b80h ( 15232) load
+    I (165) esp_image: segment 2: paddr=00040020 vaddr=400d0020 size=9dbc0h (646080) map
+    I (360) esp_image: segment 3: paddr=000ddbe8 vaddr=3ffb3b80 size=00db4h (  3508) load
+    I (361) esp_image: segment 4: paddr=000de9a4 vaddr=40080000 size=1bc98h (113816) load
+    I (420) boot: Loaded app from partition at offset 0x10000
+    I (420) boot: Disabling RNG early entropy source...
+    I (432) cpu_start: Multicore app
+    I (432) quad_psram: This chip is ESP32-D0WD
+    I (433) esp_psram: Found 8MB PSRAM device
+    I (434) esp_psram: Speed: 80MHz
+    I (438) esp_psram: PSRAM initialized, cache is in low/high (2-core) mode.
+    W (445) esp_psram: Virtual address not enough for PSRAM, map as much as we can. 4MB is mapped
+    I (454) cpu_start: Pro cpu up.
+    I (458) cpu_start: Starting app cpu, entry point is 0x40081704
+    0x40081704: call_start_cpu1 at /Users/joshua/esp/esp-idf/components/esp_system/port/cpu_start.c:154
 
     I (0) cpu_start: App cpu up.
-    I (776) esp_psram: SPI SRAM memory test OK
-    I (784) cpu_start: Pro cpu start user code
-    I (784) cpu_start: cpu freq: 160000000 Hz
-    I (784) cpu_start: Application information:
-    I (787) cpu_start: Project name:     esp32-vo
-    I (792) cpu_start: App version:      39ca9e5-dirty
-    I (797) cpu_start: Compile time:     Oct 24 2023 17:01:22
-    I (803) cpu_start: ELF file SHA256:  9c7957b240d59afd...
-    I (809) cpu_start: ESP-IDF:          v5.1-rc2-dirty
-    I (815) cpu_start: Min chip rev:     v0.0
-    I (820) cpu_start: Max chip rev:     v3.99 
-    I (824) cpu_start: Chip rev:         v3.1
-    I (829) heap_init: Initializing. RAM available for dynamic allocation:
-    I (836) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
-    I (842) heap_init: At 3FFB3CD0 len 0002C330 (176 KiB): DRAM
-    I (849) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
-    I (855) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
-    I (861) heap_init: At 400921A0 len 0000DE60 (55 KiB): IRAM
-    I (868) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator
-    I (876) spi_flash: detected chip: generic
-    I (880) spi_flash: flash io: dio
-    W (884) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
-    I (897) app_start: Starting scheduler on CPU0
-    I (902) app_start: Starting scheduler on CPU1
-    I (902) main_task: Started on CPU0
-    I (912) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
-    I (912) main_task: Calling app_main()
+    I (979) esp_psram: SPI SRAM memory test OK
+    I (987) cpu_start: Pro cpu start user code
+    I (987) cpu_start: cpu freq: 160000000 Hz
+    I (987) cpu_start: Application information:
+    I (990) cpu_start: Project name:     esp32-vo
+    I (995) cpu_start: App version:      3dc88df-dirty
+    I (1001) cpu_start: Compile time:     Nov 10 2023 17:15:03
+    I (1007) cpu_start: ELF file SHA256:  5248007c2f97ec9d...
+    I (1013) cpu_start: ESP-IDF:          v5.1-rc2-dirty
+    I (1018) cpu_start: Min chip rev:     v0.0
+    I (1023) cpu_start: Max chip rev:     v3.99 
+    I (1028) cpu_start: Chip rev:         v3.1
+    I (1033) heap_init: Initializing. RAM available for dynamic allocation:
+    I (1040) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+    I (1046) heap_init: At 3FFBAA28 len 000255D8 (149 KiB): DRAM
+    I (1053) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM
+    I (1059) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM
+    I (1066) heap_init: At 4009BC98 len 00004368 (16 KiB): IRAM
+    I (1072) esp_psram: Adding pool of 4096K of PSRAM memory to heap allocator
+    I (1080) spi_flash: detected chip: generic
+    I (1084) spi_flash: flash io: dio
+    W (1088) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+    I (1102) app_start: Starting scheduler on CPU0
+    I (1107) app_start: Starting scheduler on CPU1
+    I (1107) main_task: Started on CPU0
+    I (1117) esp_psram: Reserving pool of 32K of internal memory for DMA/internal allocations
+    I (1117) main_task: Calling app_main()
 
     ~~~~~ ESP32-CAM Vision Offloading ~~~~~ 
 
     Initializing Camera...
-    I (922) gpio: GPIO[25]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:2 
-    I (932) cam_hal: cam init ok
-    I (942) sccb: pin_sda 26 pin_scl 27
-    I (942) sccb: sccb_i2c_port=1
-    I (942) gpio: GPIO[32]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 
-    I (982) camera: Detected camera at address=0x30
-    I (982) camera: Detected OV2640 camera
-    I (982) camera: Camera PID=0x26 VER=0x42 MIDL=0x7f MIDH=0xa2
-    I (1062) cam_hal: buffer_size: 32768, half_buffer_size: 4096, node_buffer_size: 2048, node_cnt: 16, total_cnt: 93
-    I (1062) cam_hal: Allocating 384000 Byte frame buffer in PSRAM
-    I (1072) cam_hal: cam config ok
-    I (1072) ov2640: Set PLL: clk_2x: 0, clk_div: 0, pclk_auto: 0, pclk_div: 12
+    I (1127) gpio: GPIO[25]| InputEn: 1| OutputEn: 0| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:2 
+    I (1137) cam_hal: cam init ok
+    E (1147) camera: $$$ 2
+    E (1147) camera: $$$ 3
+    E (1147) camera: Enabling XCLK output
+    E (1157) camera: $$$ 4
+    E (1157) camera: Initializing SCCB
+    I (1157) sccb: pin_sda 26 pin_scl 27
+    I (1167) sccb: sccb_i2c_port=1
+    E (1167) camera: $$$ 5
+    E (1177) camera: $$$ 6
+    E (1177) camera: Resetting camera by power down line
+    I (1177) gpio: GPIO[32]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 0| Pulldown: 0| Intr:0 
+    E (1207) camera: Searching for camera address
+    I (1217) camera: Detected camera at address=0x30
+    I (1217) camera: Detected OV2640 camera
+    I (1217) camera: Camera PID=0x26 VER=0x42 MIDL=0x7f MIDH=0xa2
+    E (1217) camera: Doing SW reset of sensor
+    I (1307) cam_hal: buffer_size: 32768, half_buffer_size: 4096, node_buffer_size: 2048, node_cnt: 16, total_cnt: 93
+    I (1307) cam_hal: Allocating 384000 Byte frame buffer in PSRAM
+    I (1317) cam_hal: cam config ok
+    E (1317) camera: Setting frame size to 1600x1200
+    I (1327) ov2640: Set PLL: clk_2x: 0, clk_div: 0, pclk_auto: 0, pclk_div: 12
     Initializing Camera Done
+    I (1457) wifi:wifi driver task: 3ffd39c0, prio:23, stack:6656, core=0
+    I (1477) wifi:wifi firmware version: b2f1f86
+    I (1477) wifi:wifi certification version: v7.0
+    I (1477) wifi:config NVS flash: enabled
+    I (1477) wifi:config nano formating: disabled
+    I (1477) wifi:Init data frame dynamic rx buffer num: 32
+    I (1487) wifi:Init management frame dynamic rx buffer num: 32
+    I (1487) wifi:Init management short buffer num: 32
+    I (1497) wifi:Init static tx buffer num: 16
+    I (1497) wifi:Init tx cache buffer num: 32
+    I (1507) wifi:Init static rx buffer size: 1600
+    I (1507) wifi:Init static rx buffer num: 10
+    I (1507) wifi:Init dynamic rx buffer num: 32
+    I (1517) wifi_init: rx ba win: 6
+    I (1517) wifi_init: tcpip mbox: 32
+    I (1517) wifi_init: udp mbox: 6
+    I (1527) wifi_init: tcp mbox: 6
+    I (1527) wifi_init: tcp tx win: 5744
+    I (1537) wifi_init: tcp rx win: 5744
+    I (1537) wifi_init: tcp mss: 1440
+    I (1547) wifi_init: WiFi IRAM OP enabled
+    I (1547) wifi_init: WiFi RX IRAM OP enabled
+    I (1557) phy_init: phy_version 4670,719f9f6,Feb 18 2021,17:07:07
+    cam_hal: EV-EOF-OVF
+    I (1657) wifi:mode : sta (a0:b7:65:50:de:a8)
+    I (1657) wifi:enable tsf
+    WiFi connecting ... 
 
     ===== Camera Capture Log ===== 
-    [465798] F0: 1600 x 1200, format 4, length 38127
-    [625724] F1: 1600 x 1200, format 4, length 226628
-    [785631] F2: 1600 x 1200, format 4, length 208620
-    [945534] F3: 1600 x 1200, format 4, length 171173
-    [1105447] F4: 1600 x 1200, format 4, length 205566
-    .
-    .
-    .
+    I (1667) main_task: Returned from app_main()
+    I (1667) wifi:new:<6,0>, old:<1,0>, ap:<255,255>, sta:<6,0>, prof:1
+    I (1667) wifi:state: init -> auth (b0)
+    I (1677) wifi:state: auth -> assoc (0)
+    I (1687) wifi:state: assoc -> run (10)
+    I (2147) wifi:connected with Josh's iPhone (2), aid = 2, channel 6, BW20, bssid = ce:8b:dc:fd:88:aa
+    I (2147) wifi:security: WPA2-PSK, phy: bgn, rssi: -63
+    I (2167) wifi:pm start, type: 1
+
+    WiFi connected ... 
+    I (2207) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+    I (2777) wifi:<ba-add>idx:0 (ifx:0, ce:8b:dc:fd:88:aa), tid:0, ssn:2, winSize:64
+    I (3667) esp_netif_handlers: sta ip: 172.20.10.7, mask: 255.255.255.240, gw: 172.20.10.1
+    WiFi got IP ... 
+
+    W (23727) cam_hal: Attempting to get the frame from the queue
+    W (23727) cam_hal: Got the frame from the queue
+    I (29777) ESP32-CAM: MJPG: 102KB 6056ms (0.2fps)
+    W (29777) cam_hal: Attempting to get the frame from the queue
+    W (29877) cam_hal: Got the frame from the queue
+    I (30407) ESP32-CAM: MJPG: 99KB 626ms (1.6fps)
+    W (30407) cam_hal: Attempting to get the frame from the queue
+    W (30517) cam_hal: Got the frame from the queue
+    I (31387) ESP32-CAM: MJPG: 90KB 974ms (1.0fps)
+    W (31387) cam_hal: Attempting to get the frame from the queue
+    W (31477) cam_hal: Got the frame from the queue
+    I (31927) ESP32-CAM: MJPG: 80KB 544ms (1.8fps)
+    W (31927) cam_hal: Attempting to get the frame from the queue
+    W (32037) cam_hal: Got the frame from the queue
+    I (32817) ESP32-CAM: MJPG: 79KB 885ms (1.1fps)
+    W (32817) cam_hal: Attempting to get the frame from the queue
+    W (32917) cam_hal: Got the frame from the queue
+    I (34207) ESP32-CAM: MJPG: 75KB 1390ms (0.7fps)
+    W (34207) cam_hal: Attempting to get the frame from the queue
+    W (34357) cam_hal: Got the frame from the queue
+    W (36817) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (38737) ESP32-CAM: MJPG: 91KB 4530ms (0.2fps)
+    W (38737) cam_hal: Attempting to get the frame from the queue
+    W (38837) cam_hal: Got the frame from the queue
+    I (40777) ESP32-CAM: MJPG: 116KB 2042ms (0.5fps)
+    W (40777) cam_hal: Attempting to get the frame from the queue
+    W (40917) cam_hal: Got the frame from the queue
+    W (45117) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (45527) ESP32-CAM: MJPG: 109KB 4753ms (0.2fps)
+    W (45527) cam_hal: Attempting to get the frame from the queue
+    W (45627) cam_hal: Got the frame from the queue
+    W (47877) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (49437) ESP32-CAM: MJPG: 118KB 3906ms (0.3fps)
+    W (49437) cam_hal: Attempting to get the frame from the queue
+    W (49547) cam_hal: Got the frame from the queue
+    W (51997) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    W (55867) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (56487) ESP32-CAM: MJPG: 119KB 7049ms (0.1fps)
+    W (56487) cam_hal: Attempting to get the frame from the queue
+    W (56587) cam_hal: Got the frame from the queue
+    I (59357) ESP32-CAM: MJPG: 106KB 2875ms (0.3fps)
+    W (59367) cam_hal: Attempting to get the frame from the queue
+    W (59467) cam_hal: Got the frame from the queue
+    I (61577) ESP32-CAM: MJPG: 111KB 2212ms (0.5fps)
+    W (61577) cam_hal: Attempting to get the frame from the queue
+    W (61707) cam_hal: Got the frame from the queue
+    I (63807) ESP32-CAM: MJPG: 114KB 2231ms (0.4fps)
+    W (63807) cam_hal: Attempting to get the frame from the queue
+    W (63937) cam_hal: Got the frame from the queue
+    I (65197) ESP32-CAM: MJPG: 104KB 1388ms (0.7fps)
+    W (65197) cam_hal: Attempting to get the frame from the queue
+    W (65297) cam_hal: Got the frame from the queue
+    I (65877) ESP32-CAM: MJPG: 107KB 682ms (1.5fps)
+    W (65877) cam_hal: Attempting to get the frame from the queue
+    W (66017) cam_hal: Got the frame from the queue
+    I (68737) ESP32-CAM: MJPG: 113KB 2860ms (0.3fps)
+    W (68737) cam_hal: Attempting to get the frame from the queue
+    W (68817) cam_hal: Got the frame from the queue
+    I (69797) ESP32-CAM: MJPG: 93KB 1059ms (0.9fps)
+    W (69797) cam_hal: Attempting to get the frame from the queue
+    W (69937) cam_hal: Got the frame from the queue
+    I (72267) ESP32-CAM: MJPG: 102KB 2474ms (0.4fps)
+    W (72277) cam_hal: Attempting to get the frame from the queue
+    W (72417) cam_hal: Got the frame from the queue
+    I (73207) ESP32-CAM: MJPG: 99KB 932ms (1.1fps)
+    W (73207) cam_hal: Attempting to get the frame from the queue
+    W (73297) cam_hal: Got the frame from the queue
+    I (75887) ESP32-CAM: MJPG: 98KB 2682ms (0.4fps)
+    W (75887) cam_hal: Attempting to get the frame from the queue
+    W (76017) cam_hal: Got the frame from the queue
+    I (78077) ESP32-CAM: MJPG: 99KB 2190ms (0.5fps)
+    W (78077) cam_hal: Attempting to get the frame from the queue
+    W (78177) cam_hal: Got the frame from the queue
+    W (80137) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    W (80147) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (81817) ESP32-CAM: MJPG: 102KB 3736ms (0.3fps)
+    W (81817) cam_hal: Attempting to get the frame from the queue
+    W (81927) cam_hal: Got the frame from the queue
+    I (82867) ESP32-CAM: MJPG: 92KB 1057ms (0.9fps)
+    W (82867) cam_hal: Attempting to get the frame from the queue
+    W (82967) cam_hal: Got the frame from the queue
+    I (84107) ESP32-CAM: MJPG: 91KB 1234ms (0.8fps)
+    W (84107) cam_hal: Attempting to get the frame from the queue
+    W (84247) cam_hal: Got the frame from the queue
+    I (85767) ESP32-CAM: MJPG: 93KB 1661ms (0.6fps)
+    W (85767) cam_hal: Attempting to get the frame from the queue
+    W (85847) cam_hal: Got the frame from the queue
+    W (86997) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (89307) ESP32-CAM: MJPG: 92KB 3536ms (0.3fps)
+    W (89307) cam_hal: Attempting to get the frame from the queue
+    W (89447) cam_hal: Got the frame from the queue
+    I (91687) ESP32-CAM: MJPG: 95KB 2387ms (0.4fps)
+    W (91697) cam_hal: Attempting to get the frame from the queue
+    W (91847) cam_hal: Got the frame from the queue
+    I (95897) ESP32-CAM: MJPG: 97KB 4203ms (0.2fps)
+    W (95897) cam_hal: Attempting to get the frame from the queue
+    W (96007) cam_hal: Got the frame from the queue
+    I (97057) ESP32-CAM: MJPG: 76KB 1163ms (0.9fps)
+    W (97057) cam_hal: Attempting to get the frame from the queue
+    W (97207) cam_hal: Got the frame from the queue
+    I (97707) ESP32-CAM: MJPG: 79KB 644ms (1.6fps)
+    W (97707) cam_hal: Attempting to get the frame from the queue
+    W (97837) cam_hal: Got the frame from the queue
+    W (100107) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (101017) ESP32-CAM: MJPG: 92KB 3316ms (0.3fps)
+    W (101017) cam_hal: Attempting to get the frame from the queue
+    W (101117) cam_hal: Got the frame from the queue
+    I (105047) ESP32-CAM: MJPG: 98KB 4028ms (0.2fps)
+    W (105047) cam_hal: Attempting to get the frame from the queue
+    W (105197) cam_hal: Got the frame from the queue
+    W (107167) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    W (118127) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (118437) ESP32-CAM: MJPG: 96KB 13388ms (0.1fps)
+    W (118437) cam_hal: Attempting to get the frame from the queue
+    W (118547) cam_hal: Got the frame from the queue
+    I (120857) ESP32-CAM: MJPG: 95KB 2424ms (0.4fps)
+    W (120857) cam_hal: Attempting to get the frame from the queue
+    W (120947) cam_hal: Got the frame from the queue
+    I (122527) ESP32-CAM: MJPG: 99KB 1663ms (0.6fps)
+    W (122527) cam_hal: Attempting to get the frame from the queue
+    W (122627) cam_hal: Got the frame from the queue
+    I (127957) ESP32-CAM: MJPG: 96KB 5436ms (0.2fps)
+    W (127957) cam_hal: Attempting to get the frame from the queue
+    W (128067) cam_hal: Got the frame from the queue
+    I (129067) ESP32-CAM: MJPG: 92KB 1105ms (0.9fps)
+    W (129067) cam_hal: Attempting to get the frame from the queue
+    W (129187) cam_hal: Got the frame from the queue
+    I (129827) ESP32-CAM: MJPG: 97KB 760ms (1.3fps)
+    W (129827) cam_hal: Attempting to get the frame from the queue
+    W (129987) cam_hal: Got the frame from the queue
+    I (130727) ESP32-CAM: MJPG: 96KB 903ms (1.1fps)
+    W (130727) cam_hal: Attempting to get the frame from the queue
+    W (130867) cam_hal: Got the frame from the queue
+    W (135257) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (135637) ESP32-CAM: MJPG: 98KB 4909ms (0.2fps)
+    W (135637) cam_hal: Attempting to get the frame from the queue
+    W (135737) cam_hal: Got the frame from the queue
+    W (138297) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (140217) ESP32-CAM: MJPG: 96KB 4572ms (0.2fps)
+    W (140217) cam_hal: Attempting to get the frame from the queue
+    W (140297) cam_hal: Got the frame from the queue
+    I (142897) ESP32-CAM: MJPG: 97KB 2683ms (0.4fps)
+    W (142897) cam_hal: Attempting to get the frame from the queue
+    W (143017) cam_hal: Got the frame from the queue
+    W (150267) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (150607) ESP32-CAM: MJPG: 92KB 7712ms (0.1fps)
+    W (150607) cam_hal: Attempting to get the frame from the queue
+    W (150697) cam_hal: Got the frame from the queue
+    I (154297) ESP32-CAM: MJPG: 95KB 3686ms (0.3fps)
+    W (154297) cam_hal: Attempting to get the frame from the queue
+    W (154447) cam_hal: Got the frame from the queue
+    W (157357) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (158737) ESP32-CAM: MJPG: 100KB 4437ms (0.2fps)
+    W (158737) cam_hal: Attempting to get the frame from the queue
+    W (158847) cam_hal: Got the frame from the queue
+    I (160997) ESP32-CAM: MJPG: 88KB 2260ms (0.4fps)
+    W (160997) cam_hal: Attempting to get the frame from the queue
+    W (161087) cam_hal: Got the frame from the queue
+    I (164397) ESP32-CAM: MJPG: 88KB 3404ms (0.3fps)
+    W (164397) cam_hal: Attempting to get the frame from the queue
+    W (164527) cam_hal: Got the frame from the queue
+    I (167447) ESP32-CAM: MJPG: 98KB 3046ms (0.3fps)
+    W (167447) cam_hal: Attempting to get the frame from the queue
+    W (167567) cam_hal: Got the frame from the queue
+    I (177857) ESP32-CAM: MJPG: 98KB 10415ms (0.1fps)
+    W (177857) cam_hal: Attempting to get the frame from the queue
+    W (177957) cam_hal: Got the frame from the queue
+    I (180427) ESP32-CAM: MJPG: 90KB 2569ms (0.4fps)
+    W (180427) cam_hal: Attempting to get the frame from the queue
+    W (180517) cam_hal: Got the frame from the queue
+    I (182007) ESP32-CAM: MJPG: 80KB 1577ms (0.6fps)
+    W (182007) cam_hal: Attempting to get the frame from the queue
+    W (182117) cam_hal: Got the frame from the queue
+    W (183457) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (185517) ESP32-CAM: MJPG: 80KB 3505ms (0.3fps)
+    W (185517) cam_hal: Attempting to get the frame from the queue
+    W (185637) cam_hal: Got the frame from the queue
+    I (189267) ESP32-CAM: MJPG: 91KB 3753ms (0.3fps)
+    W (189267) cam_hal: Attempting to get the frame from the queue
+    W (189387) cam_hal: Got the frame from the queue
+    I (196507) ESP32-CAM: MJPG: 93KB 7238ms (0.1fps)
+    W (196507) cam_hal: Attempting to get the frame from the queue
+    W (196587) cam_hal: Got the frame from the queue
+    W (202507) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    I (204457) ESP32-CAM: MJPG: 122KB 7951ms (0.1fps)
+    W (204457) cam_hal: Attempting to get the frame from the queue
+    W (204587) cam_hal: Got the frame from the queue
+    I (208867) ESP32-CAM: MJPG: 126KB 4413ms (0.2fps)
+    W (208867) cam_hal: Attempting to get the frame from the queue
+    W (208977) cam_hal: Got the frame from the queue
+    I (229837) ESP32-CAM: MJPG: 81KB 20969ms (0.0fps)
+    W (229837) cam_hal: Attempting to get the frame from the queue
+    W (229927) cam_hal: Got the frame from the queue
+    W (235687) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    W (245727) wifi:[ADDBA]rx delba, code:1, delete tid:0
+    W (250757) httpd_txrx: httpd_sock_err: error in send : 11
+    W (250757) httpd_uri: httpd_uri: uri handler execution failed
+    W (250757) httpd_txrx: httpd_sock_err: error in recv : 104
+    None
+    Waiting for the device to reconnect...........
     ```
     </details>
 
@@ -406,3 +653,16 @@ Make sure:
 - You follow the [**Configure**](#configure) section instructions above
 
 Also check here: [esp32-camera](https://github.com/espressif/vscode-esp-idf-extension/blob/HEAD/docs/tutorial/basic_use.md)
+
+### esp-tls: couldn't get hostname for :<hostname>: getaddrinfo() returns 202, addrinfo=0x0
+
+```
+E (3364) esp-tls: couldn't get hostname for :worldtimeapi.org: getaddrinfo() returns 202, addrinfo=0x0
+E (3374) transport_base: Failed to open a new connection: 32769
+E (3374) HTTP_CLIENT: Connection failed, sock < 0
+```
+
+Make sure:
+- Internet is on
+- SSID and password are correctly set in `menuconfig` (`WIFI` &rarr; `SSID`, `Password`)
+- There is enough delay in between connecting to the WiFi and making the HTTP request (e.g. 10 seconds)

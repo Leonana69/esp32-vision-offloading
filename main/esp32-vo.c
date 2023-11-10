@@ -8,8 +8,23 @@
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "freertos/timers.h"
+#include "freertos/event_groups.h"
+
+#include "esp_wifi.h"
+#include "esp_log.h"
+#include "nvs_flash.h"
+#include "esp_netif.h"
+#include "esp_http_server.h"
+#include "esp_timer.h"
 
 #include "esp_camera.h"
+
+#define PART_BOUNDARY "123456789000000000000987654321"
+
+static const char* _STREAM_CONTENT_TYPE = "multipart/x-mixed-replace;boundary=" PART_BOUNDARY;
+static const char* _STREAM_BOUNDARY = "\r\n--" PART_BOUNDARY "\r\n";
+static const char* _STREAM_PART = "Content-Type: image/jpeg\r\nContent-Length: %u\r\n\r\n";
 
 static const char *TAG = "ESP32-CAM";
 
@@ -82,49 +97,179 @@ static esp_err_t init_camera()
     return ESP_OK;
 }
 
-static void process_image(camera_fb_t * fb) {
-    static size_t frame_num = 0;
-    uint64_t timestamp = (uint64_t)fb->timestamp.tv_sec * 1000000 + fb->timestamp.tv_usec;
-    printf(
-        "[%lld] F%zu: %zu x %zu, format %d, length %zu\n",
-        timestamp,
-        frame_num++,
-        fb->width,
-        fb->height,
-        fb->format,
-        fb->len
-    );
+// static void process_image(camera_fb_t * fb) {
+//     static size_t frame_num = 0;
+//     uint64_t timestamp = (uint64_t)fb->timestamp.tv_sec * 1000000 + fb->timestamp.tv_usec;
+//     printf(
+//         "[%lld] F%zu: %zu x %zu, format %d, length %zu\n",
+//         timestamp,
+//         frame_num++,
+//         fb->width,
+//         fb->height,
+//         fb->format,
+//         fb->len
+//     );
+// }
+
+static void wifi_event_handler(void *event_handler_arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
+{
+    switch (event_id)
+    {
+    case WIFI_EVENT_STA_START:
+        printf("WiFi connecting ... \n");
+        break;
+
+    case WIFI_EVENT_STA_CONNECTED:
+        printf("WiFi connected ... \n");
+        break;
+
+    case WIFI_EVENT_STA_DISCONNECTED:
+        printf("WiFi lost connection ... \n");
+        break;
+
+	case IP_EVENT_STA_GOT_IP:
+		printf("WiFi got IP ... \n\n");
+		break;
+
+    default:
+        break;
+    }
 }
 
-static esp_err_t camera_capture()
+void wifi_connection()
 {
-    //acquire a frame
-    camera_fb_t * fb = esp_camera_fb_get();
-    if (!fb) {
-        ESP_LOGE(TAG, "Camera Capture Failed");
-        return ESP_FAIL;
+    // 1 - Wi-Fi/LwIP Init Phase
+    esp_netif_init(); // TCP/IP initiation 					s1.1
+	esp_event_loop_create_default(); // event loop 			s1.2
+	esp_netif_create_default_wifi_sta(); // WiFi station 	s1.3
+    wifi_init_config_t wifi_initiation = WIFI_INIT_CONFIG_DEFAULT();
+    esp_wifi_init(&wifi_initiation); // 					s1.4
+	
+	// 2 - Wi-Fi Configuration Phase
+	esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, wifi_event_handler, NULL);
+    esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, wifi_event_handler, NULL);
+    wifi_config_t wifi_configuration = {
+        .sta = {
+            .ssid = CONFIG_SSID,
+            .password = CONFIG_PASSWORD}};
+    esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_configuration);
+
+	// 3 - Wi-Fi Start Phase
+    esp_wifi_start();
+
+	// 4- Wi-Fi Connect Phase
+	esp_wifi_connect();
+}
+
+static esp_err_t get_handler(httpd_req_t *req)
+{
+    char *response_message = "Welcome to the ESP32-CAM Vision Offloading HTTP Server! Please go to /stream to see the camera stream.";
+    httpd_resp_send(req, response_message, HTTPD_RESP_USE_STRLEN);
+    return ESP_OK;
+}
+
+static esp_err_t jpg_stream_httpd_handler(httpd_req_t *req){
+    camera_fb_t *fb = NULL;
+    esp_err_t res = ESP_OK;
+    size_t _jpg_buf_len;
+    uint8_t *_jpg_buf;
+    char *part_buf[64];
+    static int64_t last_frame = 0;
+
+    if(!last_frame) {
+        last_frame = esp_timer_get_time();
     }
 
-    process_image(fb);
+    res = httpd_resp_set_type(req, _STREAM_CONTENT_TYPE);
+    if(res != ESP_OK){
+        return res;
+    }
 
-    //return the frame buffer back to the driver for reuse
-    esp_camera_fb_return(fb);
-    return ESP_OK;
+    while(true){
+        fb = esp_camera_fb_get();
+        if (!fb) {
+            ESP_LOGE(TAG, "Camera capture failed");
+            res = ESP_FAIL;
+            break;
+        }
+        if(fb->format != PIXFORMAT_JPEG){
+            bool jpeg_converted = frame2jpg(fb, 80, &_jpg_buf, &_jpg_buf_len);
+            if(!jpeg_converted){
+                ESP_LOGE(TAG, "JPEG compression failed");
+                esp_camera_fb_return(fb);
+                res = ESP_FAIL;
+            }
+        } else {
+            _jpg_buf_len = fb->len;
+            _jpg_buf = fb->buf;
+        }
+
+        if(res == ESP_OK){
+            res = httpd_resp_send_chunk(req, _STREAM_BOUNDARY, strlen(_STREAM_BOUNDARY));
+        }
+        if(res == ESP_OK){
+            size_t hlen = snprintf((char *)part_buf, 64, _STREAM_PART, _jpg_buf_len);
+            res = httpd_resp_send_chunk(req, (const char *)part_buf, hlen);
+        }
+        if(res == ESP_OK){
+            res = httpd_resp_send_chunk(req, (const char *)_jpg_buf, _jpg_buf_len);
+        }
+        if(fb->format != PIXFORMAT_JPEG){
+            free(_jpg_buf);
+        }
+        esp_camera_fb_return(fb);
+        if(res != ESP_OK){
+            break;
+        }
+
+        int64_t fr_end = esp_timer_get_time();
+        int64_t frame_time = fr_end - last_frame;
+        last_frame = fr_end;
+        frame_time /= 1000;
+        ESP_LOGI(TAG, "MJPG: %luKB %lums (%.1ffps)",
+            (uint32_t)(_jpg_buf_len/1024),
+            (uint32_t)frame_time, 1000.0 / (uint32_t)frame_time);
+    }
+
+    last_frame = 0;
+    return res;
+}
+
+void server_initiation()
+{
+    httpd_config_t server_config = HTTPD_DEFAULT_CONFIG();
+    httpd_handle_t server_handle = NULL;
+    httpd_start(&server_handle, &server_config);
+
+    httpd_uri_t uri_get = {
+        .uri = "/",
+        .method = HTTP_GET,
+        .handler = get_handler,
+        .user_ctx = NULL
+    };
+    httpd_register_uri_handler(server_handle, &uri_get);
+
+    httpd_uri_t uri_stream = {
+        .uri = "/stream",
+        .method = HTTP_GET,
+        .handler = jpg_stream_httpd_handler,
+        .user_ctx = NULL
+    };
+    httpd_register_uri_handler(server_handle, &uri_stream);
 }
 
 void app_main(void)
 {
     printf("\n ~~~~~ ESP32-CAM Vision Offloading ~~~~~ \n\n");
 
-    init_camera();
+    if (init_camera() != ESP_OK)
+    {
+        return;
+    }
+
+    nvs_flash_init();
+	wifi_connection();
+	server_initiation();
 
     printf("\n ===== Camera Capture Log ===== \n");
-
-    while(1)
-    {
-        esp_err_t res = camera_capture();
-        if (res == -1) break;
-
-        // vTaskDelay(3000 / portTICK_PERIOD_MS); // 3s delay
-    }
 }
