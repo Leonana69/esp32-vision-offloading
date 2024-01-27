@@ -1,30 +1,17 @@
 # ESP32 Vision Offloading
 This project targets efficient image offloading from an ESP32 camera module to the edge server through Wi-Fi.
 
-## TODOs
-- [ ] Use VSCode and ESP-IDF to create a basic ESP32 project.
-- [ ] Figure out the connection between ESP32 and the programmer.
-- [ ] Build, flash, and run a "hello world" project.
-- [ ] Create the "vision-offloading" project which reads images from the camera and prints out the image information (size).
-- [ ] Test the "vision-offloading" for our custom-built ESP32 module.
-  - Connection: (1, 2, 3, 4): (GND, TX, RX, 3V3). Please make sure you are using 3V3, not 5V.
-  - Flashing: hold BOOT1, start flash, press RESET1 once, wait until flash ends, release BOOT1, press RESET1 once to start the firmware.
-  - Camera connection:
-      - Y2: GPIO5
-      - Y3: GPIO3
-      - Y4: GPIO2
-      - Y5: GPIO4
-      - Y6: GPIO6
-      - PCLK: GPIO7
-      - Y7: GPIO8
-      - Y8: GPIO9
-      - XVCLK: GPIO10
-      - Y9: GPIO11
-      - HREF: GPIO12
-      - VSYNC: GPIO13
-      - RESET: GPIO14
-      - SIO_C: GPIO16
-      - SIO_D: GPIO15
-- [ ] Make the above tasks done quickly.
-- [ ] Develop network application between ESP32 and edge server.
-- [ ] Improve the efficiency of the image streaming.
+# How to Flash Firmware for ESP32
+- Connect IO0 to GND.
+- Start flashing and press the RESET button once.
+- Example Makefile entry for flash:
+```
+flash:
+	@usbport=$$(ls /dev/cu.usbserial-* | head -1); \
+	if [ -z "$$usbport" ]; then \
+		echo "No USB port found"; \
+	else \
+		idf.py -p $$usbport flash; \
+	fi
+```
+- Wait until flashing is done, disconnect IO0, and push the RESET button again. The new firmware won't run until you RESET the chip.
